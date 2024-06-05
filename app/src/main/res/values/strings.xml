@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AmaderMess</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
+    <string name="deposit">Deposit</string>
+    <string name="expense">Expense</string>
+    <string name="meals">Meals</string>
+</resources>
