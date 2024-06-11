@@ -87,3 +87,9 @@ fun CustomTextField(
     }
 
 }
+
+
+@Composable
+fun CustomLabelText(value : String = ""){
+    Text(text = value)
+}
