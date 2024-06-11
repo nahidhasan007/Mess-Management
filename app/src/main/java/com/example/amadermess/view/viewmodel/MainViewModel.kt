@@ -1,6 +1,8 @@
 package com.example.amadermess.view.viewmodel
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -42,11 +44,10 @@ class MainViewModel(val database: MessDataBase? = null) : ViewModel() {
     var member : MessMember? = null
 
 
-    var _messMemberList : List<MessMember>? = emptyList()
+    var messMemberList = mutableStateListOf<MessMember>()
 
     init {
-        insertMembers(demoMessMembers)
-        getMessMembers()
+        //insertMembers(demoMessMembers)
     }
     fun insertIntoMessDb(messMember: MessMember) {
         Log.e("I am inserting", messMember.toString())
@@ -57,7 +58,7 @@ class MainViewModel(val database: MessDataBase? = null) : ViewModel() {
 
     fun getMessMembers() {
         viewModelScope.launch(Dispatchers.IO) {
-            _messMemberList = database?.messDao()?.getMessMembers()!!
+            messMemberList.addAll(database?.messDao()?.getMessMembers()!!)
         }
     }
 

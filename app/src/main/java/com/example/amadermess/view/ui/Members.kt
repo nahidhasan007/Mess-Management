@@ -14,6 +14,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -34,8 +36,11 @@ class MembersScreen(navController: NavController? = null) {
 
 @Composable
 fun ShowMessMembers(navController: NavController? = null, viewModel: MainViewModel? = null) {
-    val messMembers = viewModel?._messMemberList
-    Log.e("MessMembers", messMembers.toString())
+
+    LaunchedEffect("") {
+        viewModel?.getMessMembers()
+    }
+
     LazyColumn( modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(8.dp)
     ) {
@@ -47,13 +52,13 @@ fun ShowMessMembers(navController: NavController? = null, viewModel: MainViewMod
                     .fillMaxWidth()
                     .padding(start = 16.dp, top = 16.dp)
                     .clickable {
-                      navController?.navigate(Screen.AddMember.route)
+                        navController?.navigate(Screen.AddMember.route)
                     }
             )
         }
-        if (messMembers != null)
+        if (viewModel?.messMemberList?.isNotEmpty() == true)
 
-            items(messMembers) { messMember ->
+            items(viewModel.messMemberList) { messMember ->
                 ItemMessMember(member = messMember)
             }
     }
