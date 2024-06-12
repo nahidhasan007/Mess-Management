@@ -48,6 +48,7 @@ fun AddMessMember(navController: NavController, viewModel: MainViewModel? = null
                 .fillMaxWidth()
                 .padding(bottom = 8.dp),
             value = name.value,
+            label = { CustomLabelText(stringResource(id = R.string.name)) },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color.Black,
                 focusedLabelColor = Color.Black
@@ -63,6 +64,7 @@ fun AddMessMember(navController: NavController, viewModel: MainViewModel? = null
                 .fillMaxWidth()
                 .padding(bottom = 8.dp),
             value = phone.value,
+            label = { CustomLabelText(stringResource(id = R.string.phone)) },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color.Black,
                 focusedLabelColor = Color.Black
@@ -78,6 +80,7 @@ fun AddMessMember(navController: NavController, viewModel: MainViewModel? = null
                 .fillMaxWidth()
                 .padding(bottom = 8.dp),
             value = deposit.value,
+            label = { CustomLabelText(stringResource(id = R.string.deposit)) },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color.Black,
                 focusedLabelColor = Color.Black
@@ -93,6 +96,7 @@ fun AddMessMember(navController: NavController, viewModel: MainViewModel? = null
                 .fillMaxWidth()
                 .padding(bottom = 8.dp),
             value = expense.value,
+            label = { CustomLabelText(stringResource(id = R.string.expense)) },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color.Black,
                 focusedLabelColor = Color.Black
@@ -108,6 +112,7 @@ fun AddMessMember(navController: NavController, viewModel: MainViewModel? = null
                 .fillMaxWidth()
                 .padding(bottom = 8.dp),
             value = meals.value,
+            label = { CustomLabelText(stringResource(id = R.string.meals)) },
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Color.Black,
                 focusedLabelColor = Color.Black

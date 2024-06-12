@@ -30,6 +30,12 @@ import com.example.amadermess.view.navigation.SetupNavigation
 import com.example.amadermess.view.viewmodel.MainVMF
 import com.example.amadermess.view.viewmodel.MainViewModel
 
+
+
+/*
+      https://stevdza-san.com/courses/to-do-app-with-jetpack-compose-mvvm-android-development/lectures/37513374
+*/
+
 class MainActivity : ComponentActivity() {
 
     val demoMessMembers = listOf(

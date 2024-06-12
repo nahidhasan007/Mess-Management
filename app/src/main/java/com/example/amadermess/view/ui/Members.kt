@@ -11,19 +11,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.navigation.NavController
 import com.example.amadermess.model.MessMember
 import com.example.amadermess.model.Screen
-import com.example.amadermess.ui.theme.Gray
 import com.example.amadermess.ui.theme.LightGray
 import com.example.amadermess.view.viewmodel.MainViewModel
 
@@ -34,9 +33,10 @@ class MembersScreen(navController: NavController? = null) {
 
 @Composable
 fun ShowMessMembers(navController: NavController? = null, viewModel: MainViewModel? = null) {
-    val messMembers = viewModel?._messMemberList
+    val messMembers by viewModel?.messMembers.observeAsState()
     Log.e("MessMembers", messMembers.toString())
-    LazyColumn( modifier = Modifier.fillMaxSize(),
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(8.dp)
     ) {
         item {
@@ -47,15 +47,29 @@ fun ShowMessMembers(navController: NavController? = null, viewModel: MainViewMod
                     .fillMaxWidth()
                     .padding(start = 16.dp, top = 16.dp)
                     .clickable {
-                      navController?.navigate(Screen.AddMember.route)
+                        navController?.navigate(Screen.AddMember.route)
                     }
             )
         }
-        if (messMembers != null)
+        item {
+            Text(
+                color = Color.Black,
+                text = "Show Mess Members",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 16.dp)
+                    .clickable {
+                        viewModel?.getMessMembers()
+                        messMembers = viewModel?._messMemberList
+                    }
+            )
+        }
 
-            items(messMembers) { messMember ->
+        messMembers?.let { members ->
+            items(members) { messMember ->
                 ItemMessMember(member = messMember)
             }
+        }
     }
 }
 
@@ -95,7 +109,7 @@ fun ItemMessMember(member: MessMember) {
         )
         Text(
             text = "Total Meal: ${member.totalMeal ?: ""}",
-            fontSize = 18.sp ,
+            fontSize = 18.sp,
             modifier = Modifier.padding(8.dp)
         )
     }

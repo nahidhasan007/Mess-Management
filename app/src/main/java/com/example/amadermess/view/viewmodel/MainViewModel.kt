@@ -1,6 +1,8 @@
 package com.example.amadermess.view.viewmodel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -42,8 +44,8 @@ class MainViewModel(val database: MessDataBase? = null) : ViewModel() {
     var member : MessMember? = null
 
 
-    var _messMemberList : List<MessMember>? = emptyList()
-
+    private val _messMemberList = MutableLiveData<List<MessMember>>()
+    val messMembers : LiveData<List<MessMember>> get() = _messMemberList
     init {
         insertMembers(demoMessMembers)
         getMessMembers()
@@ -57,7 +59,7 @@ class MainViewModel(val database: MessDataBase? = null) : ViewModel() {
 
     fun getMessMembers() {
         viewModelScope.launch(Dispatchers.IO) {
-            _messMemberList = database?.messDao()?.getMessMembers()!!
+            _messMemberList.value = database?.messDao()?.getMessMembers()!!
         }
     }
 
