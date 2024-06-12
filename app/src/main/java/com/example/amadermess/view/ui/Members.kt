@@ -11,18 +11,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.findViewTreeLifecycleOwner
 import androidx.navigation.NavController
+import com.example.amadermess.R
 import com.example.amadermess.model.MessMember
 import com.example.amadermess.model.Screen
 import com.example.amadermess.ui.theme.LightGray
@@ -40,7 +42,8 @@ fun ShowMessMembers(navController: NavController? = null, viewModel: MainViewMod
         viewModel?.getMessMembers()
     }
 
-    LazyColumn( modifier = Modifier.fillMaxSize(),
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(8.dp)
     ) {
         item {
@@ -58,49 +61,70 @@ fun ShowMessMembers(navController: NavController? = null, viewModel: MainViewMod
         if (viewModel?.messMemberList?.isNotEmpty() == true)
 
             items(viewModel.messMemberList) { messMember ->
-                ItemMessMember(member = messMember)
+                ItemMessMember(member = messMember, viewModel)
             }
     }
 }
 
 
 @Composable
-fun ItemMessMember(member: MessMember) {
+fun ItemMessMember(member: MessMember? = null, viewModel: MainViewModel?) {
     Column(
         modifier = Modifier
             .padding(16.dp)
             .background(color = LightGray, shape = RoundedCornerShape(8.dp))
             .fillMaxWidth()
     ) {
-        member.name?.let {
+
+        Text(
+            text = "Name: ${member?.name ?: ""}",
+            fontSize = 18.sp,
+            modifier = Modifier.padding(8.dp)
+        )
+
+
+        Text(
+            text = "Phone: ${member?.phone ?: ""}",
+            fontSize = 18.sp,
+            modifier = Modifier.padding(8.dp)
+        )
+        Text(
+            text = "Deposit: ${member?.deposit ?: ""}",
+            fontSize = 18.sp,
+            modifier = Modifier.padding(8.dp)
+        )
+        Text(
+            text = "Current Expense: ${member?.currentExpense ?: ""}",
+            fontSize = 18.sp,
+            modifier = Modifier.padding(8.dp)
+        )
+        Text(
+            text = "Total Meal: ${member?.totalMeal ?: ""}",
+            fontSize = 18.sp,
+            modifier = Modifier.padding(8.dp)
+        )
+        Button(
+            onClick = {
+                Log.e("Clicked delete btn", "Deleting")
+                member?.let {
+                    viewModel?.deleteMembers(member)
+                }
+            },
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(Color.Gray)
+        ) {
             Text(
-                text = "Name: $it",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(8.dp)
+                text = stringResource(id = R.string.delete),
+                modifier = Modifier.fillMaxWidth(),
+                color = Color.Black,
+                textAlign = TextAlign.Center
             )
         }
-        member.phone?.let {
-            Text(
-                text = "Phone: $it",
-                fontSize = 18.sp,
-                modifier = Modifier.padding(8.dp)
-            )
-        }
-        Text(
-            text = "Deposit: ${member.deposit ?: ""}",
-            fontSize = 18.sp,
-            modifier = Modifier.padding(8.dp)
-        )
-        Text(
-            text = "Current Expense: ${member.currentExpense ?: ""}",
-            fontSize = 18.sp,
-            modifier = Modifier.padding(8.dp)
-        )
-        Text(
-            text = "Total Meal: ${member.totalMeal ?: ""}",
-            fontSize = 18.sp,
-            modifier = Modifier.padding(8.dp)
-        )
     }
+}
+
+@Preview
+@Composable
+fun ShowItemMessMember() {
+    ItemMessMember(member = null, null)
 }

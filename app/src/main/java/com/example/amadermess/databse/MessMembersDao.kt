@@ -1,6 +1,7 @@
 package com.example.amadermess.databse
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -15,4 +16,7 @@ interface MessMembersDao {
 
     @Query("SELECT * FROM mess_members")
     fun getMessMembers(): List<MessMember>
+
+    @Delete
+    fun delete(messMember: MessMember)
 }

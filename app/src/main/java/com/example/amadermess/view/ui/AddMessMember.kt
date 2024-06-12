@@ -17,11 +17,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.amadermess.R
+import com.example.amadermess.base.CustomLabelText
 import com.example.amadermess.model.MessMember
+import com.example.amadermess.model.Screen
 import com.example.amadermess.view.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -137,6 +141,7 @@ fun AddMessMember(navController: NavController?, viewModel: MainViewModel? = nul
                 .clickable {
                     Log.e("Data fetched or not", member.toString())
                     viewModel?.insertIntoMessDb(member)
+                    navController?.navigateUp()
                 }
         )
     }

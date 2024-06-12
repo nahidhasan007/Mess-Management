@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.amadermess.databse.MessDataBase
 import com.example.amadermess.model.MessMember
 import kotlinx.coroutines.Dispatchers
@@ -63,7 +64,14 @@ class MainViewModel(val database: MessDataBase? = null) : ViewModel() {
     fun getMessMembers() {
         viewModelScope.launch(Dispatchers.IO) {
             messMemberList.addAll(database?.messDao()?.getMessMembers()!!)
-            _messMemberList.value = database?.messDao()?.getMessMembers()!!
+//            _messMemberList.value = database.messDao()?.getMessMembers()!!
+        }
+    }
+
+    fun deleteMembers(member: MessMember) {
+        Log.e("Deleting", "I am deleting a member")
+        viewModelScope.launch(Dispatchers.IO) {
+            database?.messDao()?.delete(member)
         }
     }
 
