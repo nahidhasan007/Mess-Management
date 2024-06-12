@@ -19,35 +19,9 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(val database: MessDataBase? = null) : ViewModel() {
 
-
-    val demoMessMembers = listOf(
-        MessMember(
-            name = "John Doe",
-            phone = "123-456-7890",
-            deposit = 1500.0.toString(),
-            currentExpense = 250.75.toString(),
-            totalMeal = 10.0.toString()
-        ),
-        MessMember(
-            name = "Jane Smith",
-            phone = "987-654-3210",
-            deposit = 2000.0.toString(),
-            currentExpense = 100.25.toString(),
-            totalMeal = 8.0.toString()
-        ),
-        MessMember(
-            name = "Alice Johnson",
-            phone = "555-666-7777",
-            deposit = 500.0.toString(),
-            currentExpense = 300.0.toString(),
-            totalMeal = 5.0.toString()
-        )
-    )
-
     var member : MessMember? = null
 
-
-    var messMemberList = mutableStateListOf<MessMember>()
+    val messMemberList = MutableStateFlow<MutableList<MessMember>>(mutableListOf())
 
     private val _messMemberList = MutableLiveData<List<MessMember>>()
     val messMembers : LiveData<List<MessMember>> get() = _messMemberList
@@ -63,7 +37,7 @@ class MainViewModel(val database: MessDataBase? = null) : ViewModel() {
 
     fun getMessMembers() {
         viewModelScope.launch(Dispatchers.IO) {
-            messMemberList.addAll(database?.messDao()?.getMessMembers()!!)
+            messMemberList.value = (database?.messDao()?.getMessMembers()!!)
 //            _messMemberList.value = database.messDao()?.getMessMembers()!!
         }
     }
@@ -71,7 +45,14 @@ class MainViewModel(val database: MessDataBase? = null) : ViewModel() {
     fun deleteMembers(member: MessMember) {
         Log.e("Deleting", "I am deleting a member")
         viewModelScope.launch(Dispatchers.IO) {
-            database?.messDao()?.delete(member)
+            val deletedCount = database?.messDao()?.delete(member)
+            if(deletedCount==1){
+                val arrayList = ArrayList(messMemberList.value)
+                Log.e("I am updating v1", "$arrayList")
+                arrayList.remove(member)
+                Log.e("I am updating v2", "$arrayList")
+                messMemberList.emit(arrayList)
+            }
         }
     }
 

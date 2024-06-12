@@ -16,6 +16,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -41,6 +42,7 @@ fun ShowMessMembers(navController: NavController? = null, viewModel: MainViewMod
     LaunchedEffect("") {
         viewModel?.getMessMembers()
     }
+    val messMembers = viewModel?.messMemberList?.collectAsState()
 
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
@@ -58,9 +60,9 @@ fun ShowMessMembers(navController: NavController? = null, viewModel: MainViewMod
                     }
             )
         }
-        if (viewModel?.messMemberList?.isNotEmpty() == true)
+        if (messMembers?.value?.isNotEmpty()==true)
 
-            items(viewModel.messMemberList) { messMember ->
+            items(messMembers.value) { messMember ->
                 ItemMessMember(member = messMember, viewModel)
             }
     }

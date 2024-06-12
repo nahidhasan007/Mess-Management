@@ -15,8 +15,8 @@ interface MessMembersDao {
     fun insert(messMember: MessMember): Long
 
     @Query("SELECT * FROM mess_members")
-    fun getMessMembers(): List<MessMember>
+    fun getMessMembers(): MutableList<MessMember>
 
     @Delete
-    fun delete(messMember: MessMember)
+    fun delete(messMember: MessMember) : Int
 }
