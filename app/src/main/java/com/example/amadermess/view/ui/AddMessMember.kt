@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -18,19 +17,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.amadermess.R
-import com.example.amadermess.base.CustomLabelText
-import com.example.amadermess.base.CustomTextField
 import com.example.amadermess.model.MessMember
 import com.example.amadermess.view.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddMessMember(navController: NavController, viewModel: MainViewModel? = null) {
+fun AddMessMember(navController: NavController?, viewModel: MainViewModel? = null) {
 
     val name = remember { mutableStateOf("") }
     val phone = remember { mutableStateOf("") }
@@ -137,10 +133,17 @@ fun AddMessMember(navController: NavController, viewModel: MainViewModel? = null
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .padding(16.dp)
+                .fillMaxWidth()
                 .clickable {
                     Log.e("Data fetched or not", member.toString())
                     viewModel?.insertIntoMessDb(member)
                 }
         )
     }
+}
+
+@Preview
+@Composable
+fun SimpleComposablePreview() {
+    AddMessMember(navController = null, viewModel = null)
 }
