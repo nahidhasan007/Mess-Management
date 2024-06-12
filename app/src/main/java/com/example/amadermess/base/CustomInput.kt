@@ -58,38 +58,10 @@ fun CustomTextField(
         }
 
     )
-    when (labelValue) {
-        R.string.name.toString() -> {
-            Log.e("I am inserting v1", labelValue)
-            viewModel?.member?.name = textValue.toString()
-        }
-
-        R.string.phone.toString() -> {
-            Log.e("I am inserting v2", labelValue)
-            viewModel?.member?.phone = textValue.toString()
-        }
-
-        R.string.deposit.toString() -> {
-            Log.e("I am inserting v3", labelValue)
-            viewModel?.member?.deposit = textValue.toString()
-        }
-
-        R.string.expense.toString() -> {
-            Log.e("I am inserting v4", labelValue)
-            viewModel?.member?.currentExpense = textValue.toString()
-        }
-
-        else -> {
-            Log.e("I am inserting v5", labelValue)
-            viewModel?.member?.totalMeal = textValue.toString()
-        }
-
-    }
-
 }
 
 
 @Composable
-fun CustomLabelText(value : String = ""){
+fun CustomLabelText(value : String = "") {
     Text(text = value)
 }

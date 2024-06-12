@@ -38,29 +38,6 @@ import com.example.amadermess.view.viewmodel.MainViewModel
 
 class MainActivity : ComponentActivity() {
 
-    val demoMessMembers = listOf(
-        MessMember(
-            name = "John Doe",
-            phone = "123-456-7890",
-            deposit = 1500.0.toString(),
-            currentExpense = 250.75.toString(),
-            totalMeal = 10.0.toString()
-        ),
-        MessMember(
-            name = "Jane Smith",
-            phone = "987-654-3210",
-            deposit = 2000.0.toString(),
-            currentExpense = 100.25.toString(),
-            totalMeal = 8.0.toString()
-        ),
-        MessMember(
-            name = "Alice Johnson",
-            phone = "555-666-7777",
-            deposit = 500.0.toString(),
-            currentExpense = 300.0.toString(),
-            totalMeal = 5.0.toString()
-        )
-    )
 
     private val viewModel by lazy {
         ViewModelProvider(

@@ -24,7 +24,7 @@ abstract class MessDataBase : RoomDatabase() {
             return Room.databaseBuilder(
                 context.applicationContext,
                 MessDataBase::class.java, "sharetrip-voucher-db"
-            ).build()
+            ).fallbackToDestructiveMigration().build()
         }
     }
 }

@@ -9,7 +9,7 @@ data class MessMember(
     var name: String? = null,
     @PrimaryKey
     var phone: String,
-    var deposit: String? = "",
-    var currentExpense: String? = "",
-    var totalMeal: String? = ""
+    var deposit: Double? = 0.0,
+    var currentExpense: Double? = 0.0,
+    var totalMeal: Double? = 0.0
 )
