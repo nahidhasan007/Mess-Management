@@ -23,16 +23,40 @@ class MainViewModel(val database: MessDataBase? = null) : ViewModel() {
 
     val messMemberList = MutableStateFlow<MutableList<MessMember>>(mutableListOf())
 
+    var _totalMeal = 0.0
+    var _totalExpense = 0.0
+    var _totalDeposit = 0.0
+    val totalExpense = MutableStateFlow(0.0)
+    val totalDeposit = MutableStateFlow(0.0)
+    val totalMeals = MutableStateFlow(0.0)
+
     private val _messMemberList = MutableLiveData<List<MessMember>>()
     val messMembers : LiveData<List<MessMember>> get() = _messMemberList
     init {
-        //insertMembers(demoMessMembers)
+        setTotalValues()
+    }
+
+    fun setTotalValues(){
+        viewModelScope.launch(Dispatchers.IO) {
+            _totalMeal = 0.0
+            _totalExpense = 0.0
+            _totalDeposit = 0.0
+            for(member in messMemberList.value){
+                _totalMeal+= member.totalMeal!!
+                _totalExpense += member.currentExpense!!
+                _totalDeposit += member.deposit!!
+                totalMeals.emit(_totalMeal)
+                totalDeposit.emit(_totalDeposit)
+                totalExpense.emit(_totalExpense)
+            }
+        }
     }
     fun insertIntoMessDb(messMember: MessMember) {
         Log.e("I am inserting", messMember.toString())
         viewModelScope.launch(Dispatchers.IO) {
             database?.messDao()?.insert(messMember)
         }
+        setTotalValues()
     }
 
     fun getMessMembers() {

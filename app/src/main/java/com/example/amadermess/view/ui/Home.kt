@@ -30,6 +30,7 @@ import com.example.amadermess.model.MessMember
 import com.example.amadermess.model.Screen
 import com.example.amadermess.ui.theme.LightGray
 import com.example.amadermess.view.viewmodel.MainViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 class MembersScreen(navController: NavController? = null) {
 
@@ -40,8 +41,14 @@ class MembersScreen(navController: NavController? = null) {
 fun ShowMessMembers(navController: NavController? = null, viewModel: MainViewModel? = null) {
 
     LaunchedEffect("") {
+        viewModel?.setTotalValues()
         viewModel?.getMessMembers()
+
     }
+    Log.e("TotalMeals", "${viewModel?.totalMeals?.collectAsState() }}")
+    Log.e("TotalExpense", "${viewModel?.totalExpense?.collectAsState()}")
+    Log.e("TotalDeposit", "${viewModel?.totalDeposit?.collectAsState()}")
+
     val messMembers = viewModel?.messMemberList?.collectAsState()
 
     LazyColumn(
@@ -105,6 +112,23 @@ fun ItemMessMember(member: MessMember? = null, viewModel: MainViewModel?) {
             fontSize = 18.sp,
             modifier = Modifier.padding(8.dp)
         )
+        Button(
+            onClick = {
+                Log.e("Clicked delete btn", "Deleting")
+                member?.let {
+                    viewModel?.deleteMembers(member)
+                }
+            },
+            shape = RoundedCornerShape(8.dp),
+            colors = ButtonDefaults.buttonColors(Color.Gray)
+        ) {
+            Text(
+                text = stringResource(id = R.string.delete),
+                modifier = Modifier.fillMaxWidth(),
+                color = Color.Black,
+                textAlign = TextAlign.Center
+            )
+        }
         Button(
             onClick = {
                 Log.e("Clicked delete btn", "Deleting")
